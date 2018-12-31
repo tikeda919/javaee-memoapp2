@@ -2,18 +2,21 @@ package jp.example.www;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
 
 /**
  * Servlet implementation class MainServlet
@@ -21,9 +24,9 @@ import javax.servlet.http.HttpServletResponse;
 public class MemoAppMain extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    String url = "jdbc:mysql://localhost:3306/memoapp_db";
-    String user = "memoapp";
-    String pass = "memoapp";
+//    String url = "jdbc:mysql://localhost:3306/memoapp_db";
+//    String user = "memoapp";
+//    String pass = "memoapp";
 
     /**
      * @see HttpServlet#HttpServlet()
@@ -46,7 +49,12 @@ public class MemoAppMain extends HttpServlet {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection(url, user, pass);
+            //con = DriverManager.getConnection(url, user, pass);
+            Context initContext = new InitialContext();
+            Context envContext  = (Context)initContext.lookup("java:/comp/env");
+            DataSource ds = (DataSource)envContext.lookup("jdbc/memoapp_db");
+            con = ds.getConnection();
+            System.out.println("con: " + con);
             smt = con.createStatement();
 
             String select_memo = "select title, memo, modified_date from memo_data;";
@@ -62,7 +70,7 @@ public class MemoAppMain extends HttpServlet {
                 record.put("modified_date", result.getString("modified_date"));
                 record_list.add(record);
             }
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (ClassNotFoundException | SQLException | NamingException e) {
             e.printStackTrace();
         } finally {
             try {
@@ -97,7 +105,11 @@ public class MemoAppMain extends HttpServlet {
         try {
             //System.out.println(Driver.class.getName());
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection(url, user, pass);
+            //con = DriverManager.getConnection(url, user, pass);
+            Context initContext = new InitialContext();
+            Context envContext  = (Context)initContext.lookup("java:/comp/env");
+            DataSource ds = (DataSource)envContext.lookup("jdbc/memoapp_db");
+            con = ds.getConnection();
             smt = con.createStatement();
             System.out.println("smt: " + smt);
 
@@ -127,7 +139,7 @@ public class MemoAppMain extends HttpServlet {
                     ");";
             System.out.println("sql: " + insert_memo);
             smt.executeUpdate(insert_memo);
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException | NamingException e) {
             e.printStackTrace();
         } finally {
             try {
