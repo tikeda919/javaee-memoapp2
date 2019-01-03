@@ -1,6 +1,6 @@
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="java.util.HashMap"%>
+<%@page import="jp.example.www.MemoBean" %>
 <%@page language="java" contentType="text/html; charset=UTF-8"
  pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -20,16 +20,16 @@
  </form>
 
  <%
-     ArrayList<HashMap<String, String>> list = (ArrayList<HashMap<String, String>>) request
-             .getAttribute("record_list");
+     ArrayList<MemoBean> list = (ArrayList<MemoBean>) request
+             .getAttribute("memo_list");
 
-     Iterator<HashMap<String, String>> i = list.iterator();
+     Iterator<MemoBean> i = list.iterator();
      while (i.hasNext()) {
-         HashMap map = i.next();
+         MemoBean memo = i.next();
          out.println("<hr/>");
-         out.println("<div>" + map.get("title") + "</div>");
-         out.println("<div>" + map.get("modified_date") + "</div>");
-         out.println("<div>" + ((String) map.get("memo")).replace("\n", "<br/>") + "</div>");
+         out.println("<div>" + memo.getTitle() + "</div>");
+         out.println("<div>" + memo.getModify() + "</div>");
+         out.println("<div>" + memo.getMemo().replace("\n", "<br/>") + "</div>");
      }
  %>
 

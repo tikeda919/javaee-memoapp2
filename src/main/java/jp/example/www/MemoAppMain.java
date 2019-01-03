@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -45,7 +44,7 @@ public class MemoAppMain extends HttpServlet {
         // レコード取り出し
         Connection con = null;
         Statement smt = null;
-        ArrayList<HashMap<String, String>> record_list = new ArrayList<>();
+        ArrayList<MemoBean> memo_list = new ArrayList<>();
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -61,14 +60,15 @@ public class MemoAppMain extends HttpServlet {
 
             ResultSet result = smt.executeQuery(select_memo);
             while (result.next()) {
-                HashMap<String, String> record = new HashMap<>();
+                MemoBean memoBean = new MemoBean();
                 System.out.println("title: " + result.getString("title"));
                 System.out.println("memo: " + result.getString("memo"));
                 System.out.println("modify: " + result.getString("modified_date"));
-                record.put("title", result.getString("title"));
-                record.put("memo", result.getString("memo"));
-                record.put("modified_date", result.getString("modified_date"));
-                record_list.add(record);
+                memoBean.setTitle(result.getString("title"));
+                memoBean.setMemo(result.getString("memo"));
+                memoBean.setModify(result.getString("modified_date"));
+                System.out.println("memobean: " + memoBean);
+                memo_list.add(memoBean);
             }
         } catch (ClassNotFoundException | SQLException | NamingException e) {
             e.printStackTrace();
@@ -80,7 +80,7 @@ public class MemoAppMain extends HttpServlet {
             }
         }
 
-        request.setAttribute("record_list", record_list);
+        request.setAttribute("memo_list", memo_list);
 
         String view = "/WEB-INF/jsp/index.jsp";
         RequestDispatcher dispatcher = request.getRequestDispatcher(view);
