@@ -28,7 +28,12 @@
     <hr/>
     <div><c:out value="${data.getTitle()}"/></div>
     <div><c:out value="${data.getModify()}"/></div>
-    <div>${fn:replace(data.getMemo(), newLineChar, "<br/>")}</div>
+    <div>
+    <c:forTokens var="line" delims="
+" items="${data.getMemo()}">
+    <c:out value="${line}"/><br/>
+    </c:forTokens>
+    </div>
   </c:forEach>
 
 </body>
