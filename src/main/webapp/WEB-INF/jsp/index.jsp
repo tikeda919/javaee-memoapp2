@@ -1,12 +1,8 @@
-<%@page import="java.util.Iterator"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="jp.example.www.MemoBean"%>
 <%@page language="java" contentType="text/html; charset=UTF-8"
  pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ page isELIgnored="false" %>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -26,10 +22,10 @@
 <% pageContext.setAttribute("newLineChar", "\n"); %>
   <c:forEach var="data" items="${memo_list}">
     <hr/>
-    <div><c:out value="${data.getTitle()}"/></div>
-    <div><c:out value="${data.getModify()}"/></div>
+    <div><c:out value="${data.title}"/></div>
+    <div><c:out value="${data.modify}"/></div>
     <div>
-    <c:forEach var="line" items="${fn:split(data.getMemo(), newLineChar)}">
+    <c:forEach var="line" items="${fn:split(data.memo, newLineChar)}">
     <c:out value="${line}"/><br/>
     </c:forEach>
     </div>
