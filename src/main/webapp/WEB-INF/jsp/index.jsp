@@ -29,10 +29,9 @@
     <div><c:out value="${data.getTitle()}"/></div>
     <div><c:out value="${data.getModify()}"/></div>
     <div>
-    <c:forTokens var="line" delims="
-" items="${data.getMemo()}">
+    <c:forEach var="line" items="${fn:split(data.getMemo(), newLineChar)}">
     <c:out value="${line}"/><br/>
-    </c:forTokens>
+    </c:forEach>
     </div>
   </c:forEach>
 
