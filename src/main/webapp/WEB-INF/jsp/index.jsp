@@ -23,11 +23,12 @@
   <br /> <input type="submit" />
  </form>
 
+<% pageContext.setAttribute("newLineChar", "\n"); %>
   <c:forEach var="data" items="${memo_list}">
     <hr/>
     <div><c:out value="${data.getTitle()}"/></div>
     <div><c:out value="${data.getModify()}"/></div>
-    <div><c:out value="${data.getMemo()}"/></div>
+    <div>${fn:replace(data.getMemo(), newLineChar, "<br/>")}</div>
   </c:forEach>
 
 </body>
