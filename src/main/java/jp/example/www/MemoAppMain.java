@@ -1,31 +1,21 @@
 package jp.example.www;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.sql.DataSource;
+
+import jp.example.www.dao.MemoappDao;
+import jp.example.www.dao.MemoappDaoImpl;
 
 /**
  * Servlet implementation class MainServlet
  */
 public class MemoAppMain extends HttpServlet {
     private static final long serialVersionUID = 1L;
-
-//    String url = "jdbc:mysql://localhost:3306/memoapp_db";
-//    String user = "memoapp";
-//    String pass = "memoapp";
 
     /**
      * @see HttpServlet#HttpServlet()
@@ -42,45 +32,8 @@ public class MemoAppMain extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // レコード取り出し
-        Connection con = null;
-        Statement smt = null;
-        ArrayList<MemoBean> memo_list = new ArrayList<>();
-
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            //con = DriverManager.getConnection(url, user, pass);
-            Context initContext = new InitialContext();
-            Context envContext  = (Context)initContext.lookup("java:/comp/env");
-            DataSource ds = (DataSource)envContext.lookup("jdbc/memoapp_db");
-            con = ds.getConnection();
-            System.out.println("con: " + con);
-            smt = con.createStatement();
-
-            String select_memo = "select title, memo, modified_date from memo_data;";
-
-            ResultSet result = smt.executeQuery(select_memo);
-            while (result.next()) {
-                MemoBean memoBean = new MemoBean();
-                System.out.println("title: " + result.getString("title"));
-                System.out.println("memo: " + result.getString("memo"));
-                System.out.println("modify: " + result.getString("modified_date"));
-                memoBean.setTitle(result.getString("title"));
-                memoBean.setMemo(result.getString("memo"));
-                memoBean.setModify(result.getString("modified_date"));
-                System.out.println("memobean: " + memoBean);
-                memo_list.add(memoBean);
-            }
-        } catch (ClassNotFoundException | SQLException | NamingException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
-        request.setAttribute("memo_list", memo_list);
+        MemoappDao dao = new MemoappDaoImpl();
+        request.setAttribute("memo_list", dao.getMemos());
 
         String view = "/WEB-INF/jsp/index.jsp";
         RequestDispatcher dispatcher = request.getRequestDispatcher(view);
@@ -95,60 +48,15 @@ public class MemoAppMain extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        System.out.println("title maven: " + request.getParameter("title"));
-        System.out.println("memo: " + request.getParameter("memo"));
 
-        // -- ここにDBへ保存処理 --
-        Connection con = null;
-        Statement smt = null;
+        MemoBean memo = new MemoBean();
+        memo.setTitle(request.getParameter("title"));
+        memo.setMemo(request.getParameter("memo"));
+        System.out.println("post:title: " + memo.getTitle());
+        System.out.println("post:memo: " + memo.getMemo());
 
-        try {
-            //System.out.println(Driver.class.getName());
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            //con = DriverManager.getConnection(url, user, pass);
-            Context initContext = new InitialContext();
-            Context envContext  = (Context)initContext.lookup("java:/comp/env");
-            DataSource ds = (DataSource)envContext.lookup("jdbc/memoapp_db");
-            con = ds.getConnection();
-            smt = con.createStatement();
-            System.out.println("smt: " + smt);
-
-            String create_table = "create table if not exists memo_data (" +
-                    "memo_id INT(11) auto_increment not null comment 'ID'," +
-                    "category INT(11) comment 'カテゴリ'," +
-                    "title VARCHAR(64) comment 'タイトル'," +
-                    "memo TEXT comment 'メモ'," +
-                    "create_date DATETIME comment '作成日'," +
-                    "modified_date DATETIME comment '更新日'," +
-                    "primary key (memo_id)" + ")";
-            // create table
-            smt.executeUpdate(create_table);
-
-            String form_title = request.getParameter("title");
-            String form_memo = request.getParameter("memo");
-            System.out.println("title: " + form_title);
-            System.out.println("text: " + form_memo);
-            String insert_memo = "insert into memo_data (" +
-                    "category, title, memo, create_date, modified_date" +
-                    ") values (" +
-                    "0," +
-                    "'" + form_title + "'," +
-                    "'" + form_memo + "'," +
-                    "cast(now() as datetime)," +
-                    "cast(now() as datetime) " +
-                    ");";
-            System.out.println("sql: " + insert_memo);
-            smt.executeUpdate(insert_memo);
-        } catch (SQLException | ClassNotFoundException | NamingException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        // -- ここまでDB処理 --
+        MemoappDao dao = new MemoappDaoImpl();
+        dao.save(memo);
 
         response.sendRedirect(".");
     }
