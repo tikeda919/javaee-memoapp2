@@ -16,6 +16,8 @@ import jp.example.www.dao.MemoappDaoImpl;
  */
 public class MemoAppMain extends HttpServlet {
     private static final long serialVersionUID = 1L;
+    MemoappDao dao = new MemoappDaoImpl();
+
 
     /**
      * @see HttpServlet#HttpServlet()
@@ -32,7 +34,6 @@ public class MemoAppMain extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // レコード取り出し
-        MemoappDao dao = new MemoappDaoImpl();
         request.setAttribute("memo_list", dao.getMemos());
 
         String view = "/WEB-INF/jsp/index.jsp";
@@ -55,7 +56,6 @@ public class MemoAppMain extends HttpServlet {
         System.out.println("post:title: " + memo.getTitle());
         System.out.println("post:memo: " + memo.getMemo());
 
-        MemoappDao dao = new MemoappDaoImpl();
         dao.save(memo);
 
         response.sendRedirect(".");
