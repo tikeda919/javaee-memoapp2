@@ -31,6 +31,6 @@
   username="memoapp"
   password="memoapp"
   driverClassName="com.mysql.jdbc.Driver"
-  url="jdbc:mysql://localhost:3306/memoapp_db" />
+  url="jdbc:mysql://memoapp-db:3306/memoapp_db" />
 
 </Context>
