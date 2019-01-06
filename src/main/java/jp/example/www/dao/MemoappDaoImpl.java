@@ -26,8 +26,10 @@ public class MemoappDaoImpl implements MemoappDao {
             Class.forName("com.mysql.cj.jdbc.Driver");
             //con = DriverManager.getConnection(url, user, pass);
             Context initContext = new InitialContext();
-            Context envContext  = (Context)initContext.lookup("java:/comp/env");
-            DataSource ds = (DataSource)envContext.lookup("jdbc/memoapp_db");
+//            Context envContext  = (Context)initContext.lookup("java:/comp/env");
+//            DataSource ds = (DataSource)envContext.lookup("jdbc/memoapp_db");
+            //DataSource ds = (DataSource)initContext.lookup("java:/comp/env/jdbc/memoapp_db");
+            DataSource ds = (DataSource)initContext.lookup("jdbc/memoapp_db");
             con = ds.getConnection();
             System.out.println("con: " + con);
             smt = con.createStatement();
@@ -70,8 +72,10 @@ public class MemoappDaoImpl implements MemoappDao {
             Class.forName("com.mysql.cj.jdbc.Driver");
             //con = DriverManager.getConnection(url, user, pass);
             Context initContext = new InitialContext();
-            Context envContext  = (Context)initContext.lookup("java:/comp/env");
-            DataSource ds = (DataSource)envContext.lookup("jdbc/memoapp_db");
+//            Context envContext  = (Context)initContext.lookup("java:/comp/env");
+//            DataSource ds = (DataSource)envContext.lookup("jdbc/memoapp_db");
+            //DataSource ds = (DataSource)initContext.lookup("java:/comp/env/jdbc/memoapp_db");
+            DataSource ds = (DataSource)initContext.lookup("jdbc/memoapp_db");
             con = ds.getConnection();
             smt = con.createStatement();
             System.out.println("smt: " + smt);
