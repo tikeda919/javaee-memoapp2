@@ -28,7 +28,7 @@ public class MemoappDaoImpl implements MemoappDao {
             Context initContext = new InitialContext();
 //            Context envContext  = (Context)initContext.lookup("java:/comp/env");
 //            DataSource ds = (DataSource)envContext.lookup("jdbc/memoapp_db");
-            DataSource ds = (DataSource)initContext.lookup("java:jboss/jdbc/memoapp_db");
+            DataSource ds = (DataSource)initContext.lookup("java:/comp/env/jdbc/memoapp_db");
             //DataSource ds = (DataSource)initContext.lookup("jdbc/memoapp_db");
             con = ds.getConnection();
             System.out.println("con: " + con);
