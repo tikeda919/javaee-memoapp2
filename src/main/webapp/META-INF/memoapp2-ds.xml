@@ -6,18 +6,18 @@
  >
   <connection-url>jdbc:mysql://memoapp-db:3306/memoapp_db
   </connection-url>
-  <drivers>
-   <driver
-    name="mysql"
-    module="com.mysql"
-   >
-    <driver-class>com.mysql.cj.jdbc.Driver</driver-class>
-   </driver>
-  </drivers>
   <security>
    <user-name>memoapp</user-name>
    <password>memoapp</password>
   </security>
 
  </datasource>
+ <drivers>
+  <driver
+   name="mysql"
+   module="com.mysql"
+  >
+   <driver-class>com.mysql.cj.jdbc.Driver</driver-class>
+  </driver>
+ </drivers>
 </datasources>
