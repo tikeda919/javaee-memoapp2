@@ -4,8 +4,7 @@
   jndi-name="jdbc/memoapp_db"
   pool-name="memoapp_db"
  >
-  <connection-url>jdbc:mysql://memoapp-db:3306/memoapp_db?useUnicode=yes&amp;characterEncoding=utf8;
-  </connection-url>
+  <connection-url>jdbc:mysql://memoapp-db:3306/memoapp_db?useUnicode=yes&amp;characterEncoding=utf8</connection-url>
   <driver>mysql</driver>
   <security>
    <user-name>memoapp</user-name>
