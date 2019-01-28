@@ -103,7 +103,8 @@ public class MemoappDaoImpl implements MemoappDao {
                     "memo TEXT comment 'メモ'," +
                     "create_date DATETIME comment '作成日'," +
                     "modified_date DATETIME comment '更新日'," +
-                    "primary key (memo_id)" + ")";
+                    "primary key (memo_id)" + ") " +
+                    "ENGINE=InnoDB DEFAUTL CHARSET=utf8";
             // create table
             smt.executeUpdate(create_table);
 
