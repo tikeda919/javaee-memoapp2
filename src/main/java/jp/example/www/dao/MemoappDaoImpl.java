@@ -9,12 +9,36 @@ import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
+import javax.naming.NameNotFoundException;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import jp.example.www.MemoBean;
 
 public class MemoappDaoImpl implements MemoappDao {
+
+    private DataSource getDataSource() {
+        Context initContext;
+        DataSource ds = null;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            initContext = new InitialContext();
+            try {
+                ds = (DataSource) initContext.lookup("jdbc/memoapp_db");
+                System.out.println("jdbc/memoapp_db: " + ds);
+            } catch (NameNotFoundException e) {
+                //e.printStackTrace();
+                ds = (DataSource) initContext.lookup("java:comp/env/jdbc/memoapp_db");
+                System.out.println("java:/comp/env: " + ds);
+            }
+        } catch (NamingException | ClassNotFoundException e) {
+            System.out.println("exception!!!!");
+            //e1.printStackTrace();
+            throw new RuntimeException("lookup datasource failed: ", e);
+        }
+
+        return ds;
+    }
 
     @Override
     public List<MemoBean> getMemos() {
@@ -23,10 +47,7 @@ public class MemoappDaoImpl implements MemoappDao {
         ArrayList<MemoBean> memo_list = new ArrayList<>();
 
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            //con = DriverManager.getConnection(url, user, pass);
-            Context initContext = new InitialContext();
-            DataSource ds = (DataSource)initContext.lookup("jdbc/memoapp_db");
+            DataSource ds = getDataSource();
             con = ds.getConnection();
             System.out.println("con: " + con);
             smt = con.createStatement();
@@ -45,7 +66,7 @@ public class MemoappDaoImpl implements MemoappDao {
                 System.out.println("memobean: " + memoBean);
                 memo_list.add(memoBean);
             }
-        } catch (ClassNotFoundException | SQLException | NamingException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             try {
@@ -65,11 +86,7 @@ public class MemoappDaoImpl implements MemoappDao {
         Statement smt = null;
 
         try {
-            //System.out.println(Driver.class.getName());
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            //con = DriverManager.getConnection(url, user, pass);
-            Context initContext = new InitialContext();
-            DataSource ds = (DataSource)initContext.lookup("jdbc/memoapp_db");
+            DataSource ds = getDataSource();
             con = ds.getConnection();
             smt = con.createStatement();
             System.out.println("smt: " + smt);
@@ -98,7 +115,7 @@ public class MemoappDaoImpl implements MemoappDao {
                     ");";
             System.out.println("sql: " + insert_memo);
             smt.executeUpdate(insert_memo);
-        } catch (SQLException | ClassNotFoundException | NamingException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             try {
