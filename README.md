@@ -23,9 +23,7 @@ Docker環境で動作させるには
 
 1. `git clone`
 2. `cd javaee-memoapp2`
-3. `mvn package`
-4. `cd docker`
-5. `docker-compose up`
+3. `docker-compose up`
 
 [Dockerでコンテナ間通信するアプリケーションをデプロイ【Tomcat + MySQL】 - Qiita](https://qiita.com/zaki-lknr/items/9ac0b519fecfbc6c1d5f)
 
