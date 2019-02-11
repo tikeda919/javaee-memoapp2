@@ -1,0 +1,17 @@
+version: '3'
+services:
+  memoapp:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: memoapp:latest
+    ports:
+      - 18082:8080
+  memoapp-db:
+    image: mysql:5.7
+    environment: 
+      - MYSQL_DATABASE=memoapp_db
+      - MYSQL_USER=memoapp
+      - MYSQL_PASSWORD=memoapp
+      - MYSQL_RANDOM_ROOT_PASSWORD=yes
+    command: mysqld --character-set-server=utf8
