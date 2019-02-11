@@ -2,14 +2,14 @@ version: '3'
 services:
   memoapp:
     build:
-      context: ..
-      dockerfile: docker/Dockerfile
+      context: .
+      dockerfile: Dockerfile
     image: memoapp:latest
     ports:
       - 18082:8080
   memoapp-db:
     image: mysql:5.7
-    environment: 
+    environment:
       - MYSQL_DATABASE=memoapp_db
       - MYSQL_USER=memoapp
       - MYSQL_PASSWORD=memoapp
