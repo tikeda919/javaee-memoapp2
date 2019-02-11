@@ -1,7 +1,7 @@
 FROM maven:3.6 AS memoapp-build
 
 WORKDIR /usr/local/src
-RUN git clone https://github.com/zaki-lknr/javaee-memoapp2.git -b v1.0.0 \
+RUN git clone https://github.com/zaki-lknr/javaee-memoapp2.git \
     && cd javaee-memoapp2 \
     && mvn package
 
