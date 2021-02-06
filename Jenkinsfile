@@ -7,8 +7,19 @@ pipeline {
   }
   stages {
     stage('Build') {
-      steps {
-        sh 'mvn package'
+      parallel {
+        stage('Build') {
+          steps {
+            sh 'mvn package'
+          }
+        }
+
+        stage('whoami') {
+          steps {
+            sh 'whoami'
+          }
+        }
+
       }
     }
 
