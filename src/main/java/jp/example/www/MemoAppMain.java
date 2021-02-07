@@ -33,7 +33,7 @@ public class MemoAppMain extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // レコード取り出し
+        // レコード取り出し２
         request.setAttribute("memo_list", dao.getMemos());
 
         String view = "/WEB-INF/jsp/index.jsp";
