@@ -8,8 +8,9 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh 'mvn package'
         sh 'pwd'
+        sh 'mvn package'
+        archiveArtifacts 'target/*.war'
       }
     }
 
