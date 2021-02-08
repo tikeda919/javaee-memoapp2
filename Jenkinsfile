@@ -14,9 +14,9 @@ pipeline {
       }
     }
 
-    stage('') {
+    stage('message test') {
       steps {
-        input 'test'
+        input(message: 'test', ok: 'OK comment')
       }
     }
 
