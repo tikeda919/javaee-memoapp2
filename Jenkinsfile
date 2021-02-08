@@ -14,5 +14,11 @@ pipeline {
       }
     }
 
+    stage('') {
+      steps {
+        input 'test'
+      }
+    }
+
   }
 }
