@@ -17,6 +17,8 @@ pipeline {
     stage('message test') {
       steps {
         input(message: 'test', ok: 'OK comment')
+        sh 'pwd'
+        sh 'ls -la'
       }
     }
 
