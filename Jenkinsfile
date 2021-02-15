@@ -8,7 +8,6 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh 'whoami'
         sh 'pwd'
         sh 'mvn package'
         archiveArtifacts 'target/*.war'
