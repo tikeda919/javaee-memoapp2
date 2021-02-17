@@ -19,13 +19,12 @@ pipeline {
         input(message: 'test', ok: 'OK comment')
         sh 'pwd'
         sh 'ls -la'
-        sh 'whoami'
       }
     }
 
     stage('Deploy') {
       steps {
-        sh 'sudo whoami'
+        sh 'docker-compose up -d'
       }
     }
 
