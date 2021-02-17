@@ -24,7 +24,7 @@ pipeline {
 
     stage('Deploy') {
       steps {
-        sh 'sudo /usr/local/bin/docker-compose --version'
+        sh 'whoami'
       }
     }
 
