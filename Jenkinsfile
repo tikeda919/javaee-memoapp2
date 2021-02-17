@@ -8,7 +8,7 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh 'ls /usr/bin/'
+        sh 'hostname'
         sh 'mvn package'
         archiveArtifacts 'target/*.war'
       }
