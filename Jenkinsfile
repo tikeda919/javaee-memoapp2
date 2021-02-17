@@ -24,7 +24,7 @@ pipeline {
 
     stage('Deploy') {
       steps {
-        sh 'docker-compose up -d'
+        sh 'pwd ; cd /var/lib/jenkins/workspace/javaee-memoapp2_master ; docker-compose up -d'
       }
     }
 
