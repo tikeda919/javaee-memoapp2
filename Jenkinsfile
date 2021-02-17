@@ -24,7 +24,7 @@ pipeline {
 
     stage('Deploy') {
       steps {
-        sh 'whoami'
+        sh 'sudo whoami'
       }
     }
 
