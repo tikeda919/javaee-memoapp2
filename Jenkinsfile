@@ -24,8 +24,7 @@ pipeline {
 
     stage('Deploy') {
       steps {
-        sh 'which docker-compose'
-        sh 'echo $PATH'
+        sh 'ls /usr/local/bin'
         sh 'docker-compose up -d'
       }
     }
