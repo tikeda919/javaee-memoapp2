@@ -8,7 +8,7 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh 'docker --version'
+        sh 'ls /usr/bin/'
         sh 'mvn package'
         archiveArtifacts 'target/*.war'
       }
