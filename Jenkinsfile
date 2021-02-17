@@ -19,6 +19,7 @@ pipeline {
         input(message: 'test', ok: 'OK comment')
         sh 'pwd'
         sh 'ls -la'
+        sh 'whoami'
       }
     }
 
