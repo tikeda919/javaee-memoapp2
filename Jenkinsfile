@@ -1,12 +1,13 @@
 pipeline {
-  agent {
-    docker {
-      image 'maven'
-    }
-
-  }
+  agent any
   stages {
     stage('Build') {
+      agent {
+        docker {
+          image 'maven'
+        }
+
+      }
       steps {
         sh 'hostname'
         sh 'mvn package'
