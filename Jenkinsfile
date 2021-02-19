@@ -9,7 +9,6 @@ pipeline {
 
       }
       steps {
-        sh 'hostname'
         sh 'mvn package'
         archiveArtifacts 'target/*.war'
       }
