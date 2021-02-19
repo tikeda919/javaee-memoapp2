@@ -23,9 +23,14 @@ pipeline {
     }
 
     stage('Deploy') {
+      agent {
+        dockerfile {
+          filename 'Dockerfile'
+        }
+
+      }
       steps {
-        sh 'ls /usr/local/bin'
-        sh 'docker-compose up -d'
+        echo 'hello'
       }
     }
 
