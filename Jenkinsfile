@@ -9,28 +9,21 @@ pipeline {
 
     stage('NETWORK CREATE') {
       steps {
-        sh '''        try{
-            print "try"
-            error "failed"
-        } catch(Exception e) {
-            print "catch"
-        } finally {
-            print "finally"
-        }'''
-        }
+        sh 'docker network create memoapp-network'
       }
-
-      stage('RUN MYSQL') {
-        steps {
-          sh 'docker run --network memoapp-network --name memoapp-db -e MYSQL_DATABASE=memoapp_db -e MYSQL_USER=memoapp -e MYSQL_PASSWORD=memoapp -e MYSQL_RANDOM_ROOT_PASSWORD=yes -d mysql:5.7 --character-set-server=utf8'
-        }
-      }
-
-      stage('RUN APPLICATION') {
-        steps {
-          sh 'docker run --network memoapp-network -d -r 18082:8080 my_tomcat_app'
-        }
-      }
-
     }
+
+    stage('RUN MYSQL') {
+      steps {
+        sh 'docker run --network memoapp-network --name memoapp-db -e MYSQL_DATABASE=memoapp_db -e MYSQL_USER=memoapp -e MYSQL_PASSWORD=memoapp -e MYSQL_RANDOM_ROOT_PASSWORD=yes -d mysql:5.7 --character-set-server=utf8'
+      }
+    }
+
+    stage('RUN APPLICATION') {
+      steps {
+        sh 'docker run --network memoapp-network -d -r 18082:8080 my_tomcat_app'
+      }
+    }
+
   }
+}
