@@ -1,38 +1,32 @@
 pipeline {
   agent any
   stages {
-    stage('Build') {
-      agent {
-        docker {
-          image 'maven'
+    stage('IMAGE CREATE') {
+      steps {
+        sh 'docker build -t my_tomcat_app .'
+      }
+    }
+
+    stage('NETWORK CREATE') {
+      steps {
+        sh '''try {
+docker network create memoapp-network
+} catch (err) {
+}'''
         }
+      }
 
+      stage('RUN MYSQL') {
+        steps {
+          sh 'docker run --network memoapp-network --name memoapp-db -e MYSQL_DATABASE=memoapp_db -e MYSQL_USER=memoapp -e MYSQL_PASSWORD=memoapp -e MYSQL_RANDOM_ROOT_PASSWORD=yes -d mysql:5.7 --character-set-server=utf8'
+        }
       }
-      steps {
-        sh 'mvn package'
-        archiveArtifacts 'target/*.war'
+
+      stage('RUN APPLICATION') {
+        steps {
+          sh 'docker run --network memoapp-network -d -r 18082:8080 my_tomcat_app'
+        }
       }
+
     }
-
-    stage('message test') {
-      steps {
-        input(message: 'test', ok: 'OK comment')
-        sh 'pwd'
-        sh 'ls -la'
-      }
-    }
-
-    stage('Deploy') {
-      steps {
-        sh 'docker build -t memoapp .'
-      }
-    }
-
-    stage('DB') {
-      steps {
-        sh 'docker run --network memoapp-network --name memoapp-db -e MYSQL_DATABASE=memoapp_db -e MYSQL_USER=memoapp -e MYSQL_PASSWORD=memoapp -e MYSQL_RANDOM_ROOT_PASSWORD=yes -d mysql:5.7 --character-set-server=utf8'
-      }
-    }
-
   }
-}
