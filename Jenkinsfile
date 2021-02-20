@@ -9,7 +9,7 @@ pipeline {
 
     stage('NETWORK CREATE') {
       steps {
-        sh 'try{docker network create memoapp-network}catch(err){}'
+        sh 'docker network create memoapp-network | echo "ignore failure"\''
       }
     }
 
