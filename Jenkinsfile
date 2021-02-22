@@ -26,14 +26,13 @@ pipeline {
     }
 
     stage('test') {
-      steps {
-        sh '''def result = sh (
-    script: "/tmp/hoge.sh",
-    returnStatus: true
-)
+        /* /tmp/hoge.shの終了コードをresult変数に格納する */
+        def result = sh (
+            script: "/tmp/hoge.sh",
+            returnStatus: true
+        )
 
-echo "${result}"'''
-        }
+        echo "${result}"
       }
 
     }
