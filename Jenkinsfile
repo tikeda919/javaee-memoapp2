@@ -36,7 +36,7 @@ pipeline {
 
       }
       steps {
-        sh 'echo HelloWorld'
+        sh 'echo $result'
       }
     }
 
