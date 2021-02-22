@@ -35,6 +35,9 @@ pipeline {
         )
       }
       }
+            steps {
+                sh 'echo HelloWorld'
+            }
       }
 
     }
