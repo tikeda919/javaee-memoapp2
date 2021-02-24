@@ -12,7 +12,9 @@ pipeline {
       when {
         expression {
           NETWORK_NAME = sh(returnStdout: true, script: 'docker network ls |grep memoapp-network |awk \'{print$2}\'')
+          GIT_BRANCH = 'origin/' + sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
           sh 'echo $NETWORK_NAME'
+          sh 'echo $GIT_BRANCH'
           return !(NETWORK_NAME == 'memoapp-network')
         }
 
