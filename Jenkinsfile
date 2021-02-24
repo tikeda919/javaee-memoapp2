@@ -17,7 +17,7 @@ pipeline {
     stage('NETWORK CREATE') {
       when {
         expression {
-          NETWORK_NAME = sh(returnStdout: true, script: docker network ls |grep memoapp-network |awk '{print$2}')
+          NETWORK_NAME = sh(returnStdout: true, script: 'docker network ls |grep memoapp-network |awk '{print$2}'')
           return NETWORK_NAME == 'memoapp-network'
         }
       }
