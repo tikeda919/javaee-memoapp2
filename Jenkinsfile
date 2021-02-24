@@ -1,12 +1,5 @@
 pipeline {
   agent any
-  parameters {
-      booleanParam (
-          defaultValue: false,
-          description: '',
-          name : 'SUCCESS')
-  }
-
   stages {
     stage('IMAGE CREATE') {
       steps {
@@ -20,6 +13,7 @@ pipeline {
           NETWORK_NAME = sh(returnStdout: true, script: 'docker network ls |grep memoapp-network |awk \'{print$2}\'')
           return NETWORK_NAME == 'memoapp-network'
         }
+
       }
       steps {
         sh 'docker network create memoapp-network'
@@ -46,10 +40,15 @@ pipeline {
             returnStatus: true
           )
         }
+
       }
       steps {
         sh 'echo HelloWorld'
       }
     }
+
+  }
+  parameters {
+    booleanParam(defaultValue: false, description: '', name: 'SUCCESS')
   }
 }
