@@ -11,7 +11,7 @@ pipeline {
       when {
         expression {
           NETWORK_NAME = sh(returnStdout: true, script: 'docker network ls |grep memoapp-network |awk \'{print$2}\'')
-          return NETWORK_NAME == 'memoapp-network'
+          return NETWORK_NAME != 'memoapp-network'
         }
 
       }
