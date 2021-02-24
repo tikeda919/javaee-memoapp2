@@ -6,6 +6,7 @@ pipeline {
           description: '',
           name : 'SUCCESS')
   }
+
   stages {
     stage('IMAGE CREATE') {
       steps {
@@ -14,12 +15,12 @@ pipeline {
     }
 
     stage('NETWORK CREATE') {
-            when {
-                expression {
-                  NETWORK_NAME = docker network ls |grep memoapp-network |awk '{print$2}'
-                  return NETWORK_NAME == 'memoapp-network'
-                }
-            }
+      when {
+        expression {
+          NETWORK_NAME = docker network ls |grep memoapp-network |awk '{print$2}'
+          return NETWORK_NAME == 'memoapp-network'
+        }
+      }
       steps {
         sh 'docker network create memoapp-network'
       }
@@ -45,12 +46,10 @@ pipeline {
             returnStatus: true
           )
         }
-
       }
       steps {
         sh 'echo HelloWorld'
       }
     }
-
   }
 }
