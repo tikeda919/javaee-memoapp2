@@ -4,8 +4,7 @@ pipeline {
     stage('IMAGE CREATE') {
       steps {
         sh 'docker build -t my_tomcat_app .'
-        sh '''a=docker network ls |grep memoapp-network |awk \'{print$2}\'
-echo a'''
+        sh 'docker network ls |grep memoapp-network |awk \'{print$2}\''
       }
     }
 
