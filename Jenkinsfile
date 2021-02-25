@@ -37,15 +37,15 @@ pipeline {
     stage('RUN APPLICATION') {
       when {
         expression {
-          def APP_CONTAINER = sh(returnStdout: true, script: 'awk \'{print$2}\' <(grep my_tomcat_app <(docker ps -a))').trim()
-          return !(APP_CONTAINER == 'my_tomcat_app')
+          def APP_CONTAINER = sh(returnStdout: true, script: 'awk \'{print$2}\' <(grep my-tomcat-app <(docker ps -a))').trim()
+          return !(APP_CONTAINER == 'my-tomcat-app')
         }
 
       }
       steps {
-        sh '''docker stop memoapp-network
-docker rm memoapp-network
-docker run --network memoapp-network -d -p 18082:8080 my_tomcat_app'''
+        sh '''docker stop my-tomcat-app
+docker rm my-tomcat-app
+docker run --name my-tomcat-app --network memoapp-network -d -p 18082:8080 my_tomcat_app'''
       }
     }
 
