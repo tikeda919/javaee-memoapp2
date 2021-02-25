@@ -28,7 +28,7 @@ docker network create memoapp-network'''
         expression {
           def MYSQL_CONTAINER = sh(returnStdout: true, script: 'grep memoapp-db <(docker ps -a --format "table {{.Names}}") || echo aaa').trim()
           print MYSQL_CONTAINER
-          return !(MYSQL_CONTAINER == params.INPUT_MYSQL_CONTAINER_NAME)
+          return !(MYSQL_CONTAINER == params.INPUT_MYSQL_CONTAINER)
         }
 
       }
@@ -60,7 +60,7 @@ docker network create memoapp-network'''
   }
   parameters {
     string(name: 'INPUT_NETWORK_NAME', defaultValue: 'memoapp-network', description: '')
-    string(name: 'INPUT_MYSQL_CONTAINER_NAME', defaultValue: 'memoapp-db', description: '')
-    string(name: 'INPUT_APP_CONTAINER_NAME', defaultValue: 'my-tomcat-app', description: '')
+    string(name: 'INPUT_MYSQL_CONTAINER', defaultValue: 'memoapp-db', description: '')
+    string(name: 'INPUT_APP_CONTAINER', defaultValue: 'my-tomcat-app', description: '')
   }
 }
