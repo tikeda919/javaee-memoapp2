@@ -47,11 +47,5 @@ pipeline {
       }
     }
 
-    stage('what') {
-      steps {
-        echo 'what?'
-      }
-    }
-
   }
 }
