@@ -11,7 +11,7 @@ pipeline {
     stage('NETWORK CREATE') {
       when {
         expression {
-          def NETWORK_NAME = sh(script: 'docker network ls',returnStdout: true)
+          def NETWORK_NAME = sh(returnStdout: true, script: 'awk \'{print$2}\' <(grep memoapp-network <(docker network ls))')
           GIT_BRANCH = 'origin/'
           print NETWORK_NAME
           sh 'echo ${GIT_BRANCH}'
