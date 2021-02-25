@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('APP IMAGE RECREATE') {
       steps {
-        sh 'docker build -t my-tomcat-app-img .'
+        sh 'docker build -t my-tomcat-app .'
       }
     }
 
@@ -23,8 +23,8 @@ pipeline {
     stage('RUN MYSQL') {
       when {
         expression {
-          def MYSQL_CONTAINER = sh(returnStdout: true, script: 'cut -f 1 -d ":" <(awk \'{print$2}\' <(grep mysql <(docker ps -a)))').trim()
-          return !(MYSQL_CONTAINER == 'mysql')
+          def MYSQL_CONTAINER = sh(returnStdout: true, script: 'awk \'{print$7}\' <(grep mysql <(docker ps -a))').trim()
+          return !(MYSQL_CONTAINER == 'memoapp-db')
         }
 
       }
@@ -36,7 +36,7 @@ pipeline {
     stage('STOP APPLICATION') {
       when {
         expression {
-          def APP_CONTAINER = sh(returnStdout: true, script: 'awk \'{print$2}\' <(grep my-tomcat-app <(docker ps))').trim()
+          def APP_CONTAINER = sh(returnStdout: true, script: 'awk \'{print$7}\' <(grep my-tomcat-app <(docker ps))').trim()
           return APP_CONTAINER == 'my-tomcat-app'
         }
 
