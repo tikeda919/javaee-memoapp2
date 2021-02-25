@@ -12,6 +12,7 @@ pipeline {
         expression {
           def NETWORK_NAME = sh(returnStdout: true, script: 'grep memoapp-network <(docker network ls --format "table {{.Name}}")')
           print NETWORK_NAME
+          print !(NETWORK_NAME == 'memoapp-network')
           return !(NETWORK_NAME == 'memoapp-network')
         }
 
