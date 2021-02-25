@@ -12,7 +12,8 @@ pipeline {
         expression {
           def NETWORK_NAME = sh(returnStdout: true, script: 'grep memoapp-network <(docker network ls --format "table {{.Name}}") || echo aaa').trim()
           print NETWORK_NAME
-          return !(NETWORK_NAME == 'memoapp-network')
+          print ${params.INPUT_NETWORK_NAME}
+          return !(NETWORK_NAME == ${params.INPUT_NETWORK_NAME})
         }
 
       }
@@ -55,5 +56,8 @@ pipeline {
       }
     }
 
+  }
+  parameters {
+    string(name: 'INPUT_NETWORK_NAME', defaultValue: 'memoapp-network', description: '')
   }
 }
