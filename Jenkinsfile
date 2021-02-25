@@ -12,16 +12,6 @@ pipeline {
       when {
         expression {
           def NETWORK_NAME = sh(returnStdout: true, script: 'awk \'{print$2}\' <(grep memoapp-network <(docker network ls))').trim()
-          def GIT_BRANCH = 'origin/' + sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
-          sh 'echo PRINTSTAAAAAAAAAAAAAAAAAT'
-          print NETWORK_NAME
-          print GIT_BRANCH
-          sh 'echo ECHOSTAAAAAAAAAAAAAAAAAAT'
-          sh 'echo ${NETWORK_NAME}'
-          sh 'echo $NETWORK_NAME'
-          sh 'echo ${GIT_BRANCH}'
-          sh 'echo $GIT_BRANCH'
-          print !(NETWORK_NAME == 'memoapp-network')
           return !(NETWORK_NAME == 'memoapp-network')
         }
 
@@ -32,8 +22,15 @@ pipeline {
     }
 
     stage('RUN MYSQL') {
+      when {
+        expression {
+          def MYSQL_CONTAINER = sh(returnStdout: true, script: 'cut -f 1 -d ":" <(awk \'{print$2}\' <(grep mysql <(docker ps -a)))').trim()
+          return !(MYSQL_CONTAINER == 'mysql')
+        }
+
+      }
       steps {
-        sh 'echo hello'
+        sh 'docker run --network memoapp-network --name memoapp-db -e MYSQL_DATABASE=memoapp_db -e MYSQL_USER=memoapp -e MYSQL_PASSWORD=memoapp -e MYSQL_RANDOM_ROOT_PASSWORD=yes -d mysql:5.7 --character-set-server=utf8'
       }
     }
 
