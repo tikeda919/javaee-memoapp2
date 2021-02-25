@@ -37,7 +37,7 @@ pipeline {
       when {
         expression {
           def APP_CONTAINER = sh(returnStdout: true, script: 'awk \'{print$2}\' <(grep my-tomcat-app <(docker ps -a))').trim()
-          return !(APP_CONTAINER == 'my-tomcat-app')
+          return APP_CONTAINER == 'my-tomcat-app'
         }
 
       }
