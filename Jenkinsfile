@@ -11,7 +11,7 @@ pipeline {
     stage('NETWORK CREATE') {
       when {
         expression {
-          NETWORK_NAME = sh(returnStdout: true, script: 'docker network ls')
+          NETWORK_NAME = sh(returnStdout: true, script: 'echo aaa')
           GIT_BRANCH = 'origin/' + sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
           sh 'echo $NETWORK_NAME'
           sh 'echo $GIT_BRANCH'
