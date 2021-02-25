@@ -23,7 +23,7 @@ pipeline {
     stage('RUN MYSQL') {
       when {
         expression {
-          def MYSQL_CONTAINER = sh(returnStdout: true, script: 'grep memoapp-db <(docker ps -a --format "table {{.Names}}" --filter "name=memoapp-db")').trim()
+          def MYSQL_CONTAINER = sh(returnStdout: true, script: 'docker ps -a --format "table {{.Names}}" --filter "name=memoapp-db"').trim()
           return !(MYSQL_CONTAINER == 'memoapp-db')
         }
 
