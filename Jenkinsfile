@@ -17,7 +17,7 @@ pipeline {
 
     stage('APP IMAGE RECREATE') {
       steps {
-        sh 'docker build -t my-tomcat-app-img .'
+        sh 'docker build -t my-tomcat-app-img --no-cache .'
       }
     }
 
