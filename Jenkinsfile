@@ -35,6 +35,13 @@ pipeline {
     }
 
     stage('RUN APPLICATION') {
+      when {
+        expression {
+          def APP_CONTAINER = sh(returnStdout: true, script: 'awk \'{print$2}\' <(grep my_tomcat_app <(docker ps -a))').trim()
+          return !(APP_CONTAINER == 'my_tomcat_app')
+        }
+
+      }
       steps {
         sh 'docker run --network memoapp-network -d -p 18082:8080 my_tomcat_app'
       }
