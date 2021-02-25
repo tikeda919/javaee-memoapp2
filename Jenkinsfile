@@ -1,6 +1,20 @@
 pipeline {
   agent any
   stages {
+    stage('STOP APPLICATION') {
+      when {
+        expression {
+          def APP_CONTAINER = sh(returnStdout: true, script: 'grep my-tomcat-app <(docker ps --format "table {{.Names}}") || echo param.GREP_FALSE').trim()
+          print APP_CONTAINER
+          return APP_CONTAINER == params.INPUT_APP_CONTAINER
+        }
+
+      }
+      steps {
+        sh 'docker stop my-tomcat-app ; docker rm my-tomcat-app ; docker rmi my-tomcat-app-img '
+      }
+    }
+
     stage('APP IMAGE RECREATE') {
       steps {
         sh 'docker build -t my-tomcat-app-img .'
@@ -35,20 +49,6 @@ pipeline {
       steps {
         sh 'docker run --network memoapp-network --name memoapp-db -e MYSQL_DATABASE=memoapp_db -e MYSQL_USER=memoapp -e MYSQL_PASSWORD=memoapp -e MYSQL_RANDOM_ROOT_PASSWORD=yes -d mysql:5.7 --character-set-server=utf8'
         sh "echo ------------------------------DATABASE IS CREATED AS ${params.INPUT_MYSQL_CONTAINER}------------------------------"
-      }
-    }
-
-    stage('STOP APPLICATION') {
-      when {
-        expression {
-          def APP_CONTAINER = sh(returnStdout: true, script: 'grep my-tomcat-app <(docker ps --format "table {{.Names}}") || echo param.GREP_FALSE').trim()
-          print APP_CONTAINER
-          return APP_CONTAINER == params.INPUT_APP_CONTAINER
-        }
-
-      }
-      steps {
-        sh 'docker stop my-tomcat-app ; docker rm my-tomcat-app'
       }
     }
 
