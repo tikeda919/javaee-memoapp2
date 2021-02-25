@@ -13,7 +13,7 @@ pipeline {
         expression {
           def NETWORK_NAME = sh(returnStdout: true, script: 'awk \'{print$2}\' <(grep memoapp-network <(docker network ls))')
           GIT_BRANCH = 'origin/'
-          sh 'echo $NETWORK_NAME'
+          sh 'echo ${NETWORK_NAME}'
           return !(NETWORK_NAME == 'memoapp-network')
         }
 
