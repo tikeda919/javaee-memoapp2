@@ -37,7 +37,7 @@ pipeline {
     stage('RUN APPLICATION') {
       when {
         expression {
-          def APP_CONTAINER = sh(returnStdout: true, 'awk \'{print$2}\' <(grep my_tomcat_app <(docker ps -a))').trim()
+          def APP_CONTAINER = sh(returnStdout: true, 'docker ps -a').trim()
           return !(APP_CONTAINER == 'my_tomcat_app')
         }
 
