@@ -18,7 +18,8 @@ pipeline {
 
       }
       steps {
-        sh 'docker network create memoapp-network'
+        sh '''echo params.INPUT_NETWORK_NAME
+docker network create memoapp-network'''
       }
     }
 
