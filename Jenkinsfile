@@ -1,6 +1,20 @@
 pipeline {
   agent any
   stages {
+    stage('STOP APPLICATION') {
+      when {
+        expression {
+          def APP_CONTAINER = sh(returnStdout: true, script: 'grep my-tomcat-app <(docker ps --format "table {{.Names}}") || echo param.GREP_FALSE').trim()
+          print APP_CONTAINER
+          return APP_CONTAINER == params.INPUT_APP_CONTAINER
+        }
+
+      }
+      steps {
+        sh "docker stop ${params.INPUT_APP_CONTAINER} ; docker rm ${params.INPUT_APP_CONTAINER} ; docker rmi ${params.INPUT_APP_IMAGE_NAME} "
+      }
+    }
+
     stage('APP IMAGE RECREATE') {
       steps {
         sh 'docker build -t my-tomcat-app-img .'
@@ -38,20 +52,6 @@ pipeline {
       }
     }
 
-    stage('STOP APPLICATION') {
-      when {
-        expression {
-          def APP_CONTAINER = sh(returnStdout: true, script: 'grep my-tomcat-app <(docker ps --format "table {{.Names}}") || echo param.GREP_FALSE').trim()
-          print APP_CONTAINER
-          return APP_CONTAINER == params.INPUT_APP_CONTAINER
-        }
-
-      }
-      steps {
-        sh 'docker stop my-tomcat-app ; docker rm my-tomcat-app'
-      }
-    }
-
     stage('RUN APPLICATION') {
       steps {
         sh 'docker run --name my-tomcat-app --network memoapp-network -d -p 18082:8080 my-tomcat-app-img'
@@ -64,6 +64,7 @@ pipeline {
     string(name: 'INPUT_NETWORK_NAME', defaultValue: 'memoapp-network', description: '')
     string(name: 'INPUT_MYSQL_CONTAINER', defaultValue: 'memoapp-db', description: '')
     string(name: 'INPUT_APP_CONTAINER', defaultValue: 'my-tomcat-app', description: '')
+    string(name: 'INPUT_APP_IMAGE_NAME', defaultValue: 'my-tomcat-app-img', description: '')
     string(name: 'GREP_FALSE', defaultValue: 'false', description: '')
   }
 }
