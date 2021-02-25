@@ -10,7 +10,7 @@ pipeline {
     stage('NETWORK CREATE') {
       when {
         expression {
-          def NETWORK_NAME = sh(returnStdout: true, script: 'grep memoapp-network <(docker network ls --format "table {{.Name}}") || echo aaa').trim()
+          def NETWORK_NAME = sh(returnStdout: true, script: 'grep memoapp-network <(docker network ls --format "table {{.Name}}") || echo param.GREP_FALSE').trim()
           print params.INPUT_NETWORK_NAME
           echo params.INPUT_NETWORK_NAME
           return !(NETWORK_NAME == params.INPUT_NETWORK_NAME)
@@ -26,7 +26,7 @@ docker network create memoapp-network'''
     stage('RUN MYSQL') {
       when {
         expression {
-          def MYSQL_CONTAINER = sh(returnStdout: true, script: 'grep memoapp-db <(docker ps -a --format "table {{.Names}}") || echo aaa').trim()
+          def MYSQL_CONTAINER = sh(returnStdout: true, script: 'grep memoapp-db <(docker ps -a --format "table {{.Names}}") || echo param.GREP_FALSE').trim()
           print MYSQL_CONTAINER
           return !(MYSQL_CONTAINER == params.INPUT_MYSQL_CONTAINER)
         }
@@ -40,7 +40,7 @@ docker network create memoapp-network'''
     stage('STOP APPLICATION') {
       when {
         expression {
-          def APP_CONTAINER = sh(returnStdout: true, script: 'grep my-tomcat-app <(docker ps --format "table {{.Names}}") || echo aaa').trim()
+          def APP_CONTAINER = sh(returnStdout: true, script: 'grep my-tomcat-app <(docker ps --format "table {{.Names}}") || echo param.GREP_FALSE').trim()
           print APP_CONTAINER
           return APP_CONTAINER == params.INPUT_APP_CONTAINER
         }
@@ -62,5 +62,6 @@ docker network create memoapp-network'''
     string(name: 'INPUT_NETWORK_NAME', defaultValue: 'memoapp-network', description: '')
     string(name: 'INPUT_MYSQL_CONTAINER', defaultValue: 'memoapp-db', description: '')
     string(name: 'INPUT_APP_CONTAINER', defaultValue: 'my-tomcat-app', description: '')
+    string(name: 'GREP_FALSE', defaultValue: 'false', description: '')
   }
 }
