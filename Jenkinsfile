@@ -20,7 +20,7 @@ pipeline {
 
       }
       steps {
-        sh 'docker network create memoapp-network'
+        sh 'dogger network create memoapp-network'
       }
     }
 
