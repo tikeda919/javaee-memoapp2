@@ -13,8 +13,8 @@ pipeline {
         expression {
           NETWORK_NAME = 'origin/'
           GIT_BRANCH = 'origin/' + sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
-          sh 'echo $NETWORK_NAME'
-          sh 'echo $GIT_BRANCH'
+          sh 'echo ${NETWORK_NAME}'
+          sh 'echo ${GIT_BRANCH}'
           return !(NETWORK_NAME == 'memoapp-network')
         }
 
