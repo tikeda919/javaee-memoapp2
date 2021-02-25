@@ -48,7 +48,4 @@ pipeline {
     }
 
   }
-  parameters {
-    booleanParam(defaultValue: false, description: '', name: 'SUCCESS')
-  }
 }
