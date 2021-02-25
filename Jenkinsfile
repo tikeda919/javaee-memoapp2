@@ -11,7 +11,7 @@ pipeline {
     stage('NETWORK CREATE') {
       when {
         expression {
-          NETWORK_NAME = 'origin/'
+          NETWORK_NAME = sh(script: "cat /home/ec2-user/tmp/aaa.txt | grep \"minSdkVersion\" | sed -e \"s/[^0-9]//g\"", returnStdout: true)
           GIT_BRANCH = 'origin/' + sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
           sh 'echo ${NETWORK_NAME}'
           sh 'echo ${GIT_BRANCH}'
