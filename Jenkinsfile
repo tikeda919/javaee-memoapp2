@@ -10,7 +10,7 @@ pipeline {
     stage('NETWORK CREATE') {
       when {
         expression {
-          def NETWORK_NAME = sh(returnStdout: true, script: 'grep memoapp-network <(docker network ls --format "table {{.Name}}") || exc=1')
+          def NETWORK_NAME = sh(returnStdout: true, script: 'grep memoapp-network <(docker network ls --format "table {{.Name}}") || echo oeeeeeeee')
           return !(NETWORK_NAME == 'memoapp-network')
         }
 
