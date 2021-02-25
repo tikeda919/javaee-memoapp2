@@ -18,8 +18,8 @@ pipeline {
 
       }
       steps {
-        sh "------------------------------NETWORK IS CREATED AS ${params.INPUT_NETWORK_NAME}------------------------------"
         sh 'docker network create memoapp-network'
+        sh "echo ------------------------------NETWORK IS CREATED AS ${params.INPUT_NETWORK_NAME}------------------------------"
       }
     }
 
@@ -34,6 +34,7 @@ pipeline {
       }
       steps {
         sh 'docker run --network memoapp-network --name memoapp-db -e MYSQL_DATABASE=memoapp_db -e MYSQL_USER=memoapp -e MYSQL_PASSWORD=memoapp -e MYSQL_RANDOM_ROOT_PASSWORD=yes -d mysql:5.7 --character-set-server=utf8'
+        sh "echo ------------------------------DATABASE IS CREATED AS ${params.INPUT_MYSQL_CONTAINER}------------------------------"
       }
     }
 
@@ -54,6 +55,7 @@ pipeline {
     stage('RUN APPLICATION') {
       steps {
         sh 'docker run --name my-tomcat-app --network memoapp-network -d -p 18082:8080 my-tomcat-app-img'
+        sh "echo ------------------------------APPLICATION IS CREATED AS ${params.INPUT_APP_CONTAINER}------------------------------"
       }
     }
 
