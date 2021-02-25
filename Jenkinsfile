@@ -47,7 +47,7 @@ pipeline {
       }
     }
 
-    stage('') {
+    stage('what') {
       steps {
         echo 'what?'
       }
