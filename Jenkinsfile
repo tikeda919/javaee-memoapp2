@@ -11,7 +11,7 @@ pipeline {
 
       }
       steps {
-        sh 'docker stop my-tomcat-app ; docker rm my-tomcat-app ; docker rmi my-tomcat-app-img '
+        sh "docker stop ${params.INPUT_APP_CONTAINER} ; docker rm ${params.INPUT_APP_CONTAINER} ; docker rmi ${params.INPUT_APP_IMAGE_NAME} "
       }
     }
 
@@ -64,6 +64,7 @@ pipeline {
     string(name: 'INPUT_NETWORK_NAME', defaultValue: 'memoapp-network', description: '')
     string(name: 'INPUT_MYSQL_CONTAINER', defaultValue: 'memoapp-db', description: '')
     string(name: 'INPUT_APP_CONTAINER', defaultValue: 'my-tomcat-app', description: '')
+    string(name: 'INPUT_APP_IMAGE_NAME', defaultValue: 'my-tomcat-app-img', description: '')
     string(name: 'GREP_FALSE', defaultValue: 'false', description: '')
   }
 }
