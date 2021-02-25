@@ -35,23 +35,15 @@ pipeline {
     }
 
     stage('RUN APPLICATION') {
-      steps {
-        sh 'docker run --network memoapp-network -d -p 18082:8080 my_tomcat_app | echo "ignore failure"'
-      }
-    }
-
-    stage('test') {
       when {
         expression {
-          def result = sh (
-            script: "docker run --network memoapp-network --name memoapp-db -e MYSQL_DATABASE=memoapp_db -e MYSQL_USER=memoapp -e MYSQL_PASSWORD=memoapp -e MYSQL_RANDOM_ROOT_PASSWORD=yes -d mysql:5.7 --character-set-server=utf8",
-            returnStatus: true
-          )
+          def APP_CONTAINER = sh(returnStdout: true, 'awk \'{print$2}\' <(grep my_tomcat_app <(docker ps -a))').trim()
+          return !(APP_CONTAINER == 'my_tomcat_app')
         }
 
       }
       steps {
-        sh 'echo HelloWorld'
+        sh 'docker run --network memoapp-network -d -p 18082:8080 my_tomcat_app | echo "ignore failure"'
       }
     }
 
