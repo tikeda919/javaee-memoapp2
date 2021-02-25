@@ -11,7 +11,7 @@ pipeline {
     stage('NETWORK CREATE') {
       when {
         expression {
-          sh(returnStdout: true, script: 'docker network ls')
+          sh(returnStdout: true, script: 'dogger network ls')
           GIT_BRANCH = 'origin/' + sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
           print NETWORK_NAME
           sh 'echo ${GIT_BRANCH}'
@@ -20,7 +20,7 @@ pipeline {
 
       }
       steps {
-        sh 'dogger network create memoapp-network'
+        sh 'docker network create memoapp-network'
       }
     }
 
