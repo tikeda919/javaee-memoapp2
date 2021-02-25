@@ -34,5 +34,11 @@ pipeline {
       }
     }
 
+    stage('RUN APPLICATION') {
+      steps {
+        sh 'docker run --network memoapp-network -d -p 18082:8080 my_tomcat_app'
+      }
+    }
+
   }
 }
