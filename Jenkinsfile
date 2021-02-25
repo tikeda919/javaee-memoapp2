@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('APP IMAGE RECREATE') {
       steps {
-        sh 'docker build -t my_tomcat_app .'
+        sh 'docker build -t my-tomcat-app-img .'
       }
     }
 
@@ -48,7 +48,7 @@ pipeline {
 
     stage('RUN APPLICATION') {
       steps {
-        sh 'docker run --network memoapp-network -d -p 18082:8080 my_tomcat_app'
+        sh 'docker run --name my-tomcat-app --network memoapp-network -d -p 18082:8080 my-tomcat-app-img'
       }
     }
 
