@@ -36,7 +36,7 @@ pipeline {
     stage('STOP APPLICATION') {
       when {
         expression {
-          def APP_CONTAINER = sh(returnStdout: true, script: 'grep my-tomcat-app <(docker ps --format "table {{.Names}}")').trim()
+          def APP_CONTAINER = sh(returnStdout: true, script: 'grep my-tomcat-app <(docker ps --format "table {{.Names}}") || echo aaa').trim()
           return APP_CONTAINER == 'my-tomcat-app'
         }
 
