@@ -28,7 +28,7 @@ docker network create memoapp-network'''
         expression {
           def MYSQL_CONTAINER = sh(returnStdout: true, script: 'grep memoapp-db <(docker ps -a --format "table {{.Names}}") || echo aaa').trim()
           print MYSQL_CONTAINER
-          return !(MYSQL_CONTAINER == params.INPUT_MYSQL_CONTAINER )
+          return !(MYSQL_CONTAINER == params.INPUT_MYSQL_CONTAINER_NAME)
         }
 
       }
