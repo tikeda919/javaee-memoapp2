@@ -21,6 +21,7 @@ pipeline {
           sh 'echo $NETWORK_NAME'
           sh 'echo ${GIT_BRANCH}'
           sh 'echo $GIT_BRANCH'
+          print !(NETWORK_NAME == 'memoapp-network')
           return !(NETWORK_NAME == 'memoapp-network')
         }
 
