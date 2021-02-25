@@ -1,10 +1,9 @@
 pipeline {
   agent any
   stages {
-    stage('IMAGE CREATE') {
+    stage('APP IMAGE RECREATE') {
       steps {
         sh 'docker build -t my_tomcat_app .'
-        sh 'docker network ls |grep memoapp-network |awk \'{print$2}\''
       }
     }
 
