@@ -44,7 +44,7 @@ pipeline {
       steps {
         sh '''docker stop my-tomcat-app
 docker rm my-tomcat-app
-docker run --name my-tomcat-app --network memoapp-network -d -p 18082:8080 my_tomcat_app'''
+docker run --network memoapp-network -d -p 18082:8080 my_tomcat_app'''
       }
     }
 
