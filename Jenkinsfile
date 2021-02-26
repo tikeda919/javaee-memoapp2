@@ -24,8 +24,6 @@ pipeline {
       when {
         expression {
           def NETWORK_NAME = sh(returnStdout: true, script: "docker network ls --format \"{{.Name}}\" --filter \"name=${INPUT_NETWORK_NAME}\"").trim()
-          print INPUT_NETWORK_NAME
-          echo INPUT_NETWORK_NAME
           return !(NETWORK_NAME == INPUT_NETWORK_NAME)
         }
 
@@ -40,7 +38,6 @@ pipeline {
       when {
         expression {
           def MYSQL_CONTAINER = sh(returnStdout: true, script: "docker ps -a --format \"{{.Names}}\" --filter \"name=${INPUT_MYSQL_CONTAINER}\"").trim()
-          print MYSQL_CONTAINER
           return !(MYSQL_CONTAINER == INPUT_MYSQL_CONTAINER)
         }
 
