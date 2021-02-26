@@ -63,20 +63,21 @@ pipeline {
       steps {
         script {
           def retCnt = sh(returnStdout: true, script: 'docker images --filter dangling=true | wc -l').trim()
-          sh "echo ---------retCnt:${retCnt}---------"
+          sh "echo =============retCnt:${retCnt}============="
 
           /*
           String aaa = sh(returnStdout: true, script: 'ls |wc -l').trim()
           sh "echo ---------aaa:${aaa}---------"
           */
           if(Integer.parseInt(retCnt) > 1){
-            sh "echo ${retCnt} is true"
+            sh 'docker system prune -f --volumes'
+            sh "=============${retCnt} dangling images is deleted============="
           } else {
             sh "echo ${retCnt} is false"
           }
         }
 
-        sh 'echo hahaha'
+        sh 'docker system prune -f --volumes'
       }
     }
 
