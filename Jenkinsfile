@@ -74,7 +74,7 @@ pipeline {
   }
   environment {
     INPUT_NETWORK_NAME = 'memoapp-network'
-    INPUT_MYSQL_CONTAINER = 'mysql-db'
+    INPUT_MYSQL_CONTAINER = 'memoapp_db'
     INPUT_APP_CONTAINER = 'my-tomcat-app'
     INPUT_APP_IMAGE_NAME = 'my-tomcat-app-img'
     INPUT_DB_NAME = 'memoapp_db'
