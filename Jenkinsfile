@@ -59,20 +59,6 @@ pipeline {
       }
     }
 
-    stage('test') {
-      steps {
-        script {
-          if(ls |wc -l > 1){
-            sh 'echo true'
-          } else {
-            sh 'echo false'
-          }
-        }
-
-        sh 'echo hahaha'
-      }
-    }
-
   }
   parameters {
     string(name: 'INPUT_NETWORK_NAME', defaultValue: 'memoapp-network', description: '')
