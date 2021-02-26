@@ -11,7 +11,7 @@ pipeline {
 
       }
       steps {
-        sh "docker stop ${params.INPUT_APP_CONTAINER} ; docker rm ${params.INPUT_APP_CONTAINER} ; docker rmi ${params.INPUT_APP_IMAGE_NAME} "
+        sh "docker stop ${env.INPUT_APP_CONTAINER} ; docker rm ${env.INPUT_APP_CONTAINER} ; docker rmi ${env.INPUT_APP_IMAGE_NAME} "
       }
     }
 
