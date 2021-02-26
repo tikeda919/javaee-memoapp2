@@ -63,7 +63,7 @@ pipeline {
       steps {
         script {
           def aaa = sh 'ls |wc -l'
-          if(aaa.trim() > 1){
+          if(${aaa}.trim() > 1){
             sh "echo ${aaa} is true"
           } else {
             sh 'echo false'
