@@ -62,7 +62,9 @@ pipeline {
     stage('test') {
       steps {
         script {
-          String retStd = sh(returnStdout: true, script: 'docker images |grep \'<none>\' || echo param.GREP_FALSE').trim()
+          String retStd = sh(returnStatus: true, script: 'docker images |grep \'<none>\' || echo param.GREP_FALSE').trim()
+          sh "echo ---------retStd:${retStd}---------"
+
           String aaa = sh(returnStdout: true, script: 'ls |wc -l').trim()
 
           sh "echo ---------aaa:${aaa}---------"
