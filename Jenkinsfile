@@ -59,12 +59,7 @@ pipeline {
       steps {
         script {
           def retCnt = sh(returnStdout: true, script: 'docker images --filter dangling=true --format "{{.ID}}" | wc -l').trim()
-          sh "echo ------------------------------retCnt:${retCnt}------------------------------"
 
-          /*
-          String aaa = sh(returnStdout: true, script: 'ls |wc -l').trim()
-          sh "echo ---------aaa:${aaa}---------"
-          */
           if(Integer.parseInt(retCnt) > 0){
             sh 'docker system prune -f --volumes'
             sh "echo ------------------------------${retCnt} OF DANGLING IMAGES ARE DELETED------------------------------"
@@ -73,7 +68,6 @@ pipeline {
           }
         }
 
-        sh 'docker system prune -f --volumes'
       }
     }
 
