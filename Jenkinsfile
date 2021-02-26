@@ -62,7 +62,8 @@ pipeline {
     stage('test') {
       steps {
         script {
-          if(ls |wc -l > 1){
+          def aaa = sh 'ls |wc -l'
+          if(aaa > 1){
             sh 'echo true'
           } else {
             sh 'echo false'
