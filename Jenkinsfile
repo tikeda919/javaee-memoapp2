@@ -40,7 +40,7 @@ pipeline {
     stage('RUN MYSQL') {
       when {
         expression {
-          def MYSQL_CONTAINER = sh(returnStdout: true, script: "docker ps -a --format \"{{.Name}}\" --filter \"name=${INPUT_MYSQL_CONTAINER}\"").trim()
+          def MYSQL_CONTAINER = sh(returnStdout: true, script: "docker ps -a --format \"{{.Names}}\" --filter \"name=${INPUT_MYSQL_CONTAINER}\"").trim()
           print MYSQL_CONTAINER
           return !(MYSQL_CONTAINER == INPUT_MYSQL_CONTAINER)
         }
