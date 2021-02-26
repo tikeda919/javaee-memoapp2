@@ -62,7 +62,7 @@ pipeline {
     stage('test') {
       steps {
         script {
-          def retCnt = sh(returnStdout: true, script: 'docker images --filter dangling=true | wc -l').trim()
+          def retCnt = sh(returnStdout: true, script: 'docker images --filter dangling=true --format "{{.ID}}" | wc -l').trim()
           sh "echo ------------------------------retCnt:${retCnt}------------------------------"
 
           /*
