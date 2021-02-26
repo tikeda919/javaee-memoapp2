@@ -64,9 +64,9 @@ pipeline {
         script {
           String aaa = sh(returnStdout: true, script: 'ls |wc -l').trim()
 
-          sh "echo ---------${aaa}---------"
+          sh "echo ---------aaa---------"
           if(Integer.parseInt(${aaa}) > 1){
-            sh "echo ${aaa} is true"
+            sh "echo aaa is true"
           } else {
             sh 'echo false'
           }
