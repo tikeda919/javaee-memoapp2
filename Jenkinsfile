@@ -62,9 +62,10 @@ pipeline {
     stage('test') {
       steps {
         script {
+          String retStd = sh(returnStdout: true, script: 'docker images |grep \'<none>\' || echo param.GREP_FALSE').trim()
           String aaa = sh(returnStdout: true, script: 'ls |wc -l').trim()
 
-          sh "echo ---------${aaa}---------"
+          sh "echo ---------aaa:${aaa}---------"
           if(Integer.parseInt(aaa) > 1){
             sh "echo ${aaa} is true"
           } else {
