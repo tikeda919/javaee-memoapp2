@@ -24,7 +24,7 @@ pipeline {
     stage('NETWORK CREATE') {
       when {
         expression {
-          def NETWORK_NAME = sh(returnStdout: true, script: 'docker network ls --format "{{.Name}}" --filter "name=${params.INPUT_NETWORK_NAME}"').trim()
+          def NETWORK_NAME = sh(returnStdout: true, script: "docker network ls --format \"{{.Name}}\" --filter \"name=${params.INPUT_NETWORK_NAME}\"").trim()
           print params.INPUT_NETWORK_NAME
           echo params.INPUT_NETWORK_NAME
           return !(NETWORK_NAME == params.INPUT_NETWORK_NAME)
