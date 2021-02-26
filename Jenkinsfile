@@ -69,6 +69,7 @@ pipeline {
           }
         }
 
+        sh 'echo end'
       }
     }
 
