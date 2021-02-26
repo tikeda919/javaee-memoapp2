@@ -62,9 +62,10 @@ pipeline {
     stage('test') {
       steps {
         script {
-          def aaa = sh 'ls |wc -l'
+          String aaa = sh 'ls |wc -l'
+
           sh "echo ---------${aaa}---------"
-          if(${aaa}.trim() > 1){
+          if(Integer.parseInt(${aaa}) > 1){
             sh "echo ${aaa} is true"
           } else {
             sh 'echo false'
