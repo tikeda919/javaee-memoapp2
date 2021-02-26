@@ -61,20 +61,23 @@ pipeline {
 
     stage('test') {
       steps {
-        sh '''if(ls |wc -l > 1){
- sh \'echo true\'
-} else {
- sh \'echo false\'
-}'''
+        script {
+          if(ls |wc -l > 1){
+            sh 'echo true'
+          } else {
+            sh 'echo false'
+          }
         }
-      }
 
+      }
     }
-    parameters {
-      string(name: 'INPUT_NETWORK_NAME', defaultValue: 'memoapp-network', description: '')
-      string(name: 'INPUT_MYSQL_CONTAINER', defaultValue: 'memoapp-db', description: '')
-      string(name: 'INPUT_APP_CONTAINER', defaultValue: 'my-tomcat-app', description: '')
-      string(name: 'INPUT_APP_IMAGE_NAME', defaultValue: 'my-tomcat-app-img', description: '')
-      string(name: 'GREP_FALSE', defaultValue: 'false', description: '')
-    }
+
   }
+  parameters {
+    string(name: 'INPUT_NETWORK_NAME', defaultValue: 'memoapp-network', description: '')
+    string(name: 'INPUT_MYSQL_CONTAINER', defaultValue: 'memoapp-db', description: '')
+    string(name: 'INPUT_APP_CONTAINER', defaultValue: 'my-tomcat-app', description: '')
+    string(name: 'INPUT_APP_IMAGE_NAME', defaultValue: 'my-tomcat-app-img', description: '')
+    string(name: 'GREP_FALSE', defaultValue: 'false', description: '')
+  }
+}
