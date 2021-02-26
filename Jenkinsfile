@@ -43,7 +43,7 @@ pipeline {
 
       }
       steps {
-        sh "docker run --network ${INPUT_NETWORK_NAME} --name ${INPUT_MYSQL_CONTAINER} -e MYSQL_DATABASE=${INPUT_MYSQL_CONTAINER} -e MYSQL_USER=${INPUT_MYSQL_USER_NAME} -e MYSQL_PASSWORD=${INPUT_MYSQL_USER_PASS} -e MYSQL_RANDOM_ROOT_PASSWORD=yes -d mysql:5.7 --character-set-server=utf8"
+        sh "docker run --network ${INPUT_NETWORK_NAME} --name ${INPUT_DB_NAME} -e MYSQL_DATABASE=${INPUT_DB_NAME} -e MYSQL_USER=${INPUT_MYSQL_USER_NAME} -e MYSQL_PASSWORD=${INPUT_MYSQL_USER_PASS} -e MYSQL_RANDOM_ROOT_PASSWORD=yes -d mysql:5.7 --character-set-server=utf8"
         sh "echo ------------------------------DATABASE IS CREATED AS ${INPUT_MYSQL_CONTAINER}------------------------------"
       }
     }
@@ -83,6 +83,9 @@ pipeline {
     INPUT_MYSQL_CONTAINER = 'memoapp-db'
     INPUT_APP_CONTAINER = 'my-tomcat-app'
     INPUT_APP_IMAGE_NAME = 'my-tomcat-app-img'
+    INPUT_DB_NAME = 'memoapp-db'
+    INPUT_MYSQL_USER_NAME = 'memoapp'
+    INPUT_MYSQL_USER_PASS = 'memoapp'
   }
   parameters {
     string(name: 'GREP_FALSE', defaultValue: 'false', description: '')
