@@ -59,7 +59,7 @@ pipeline {
       }
     }
 
-    stage('test') {
+    stage('DELETE DANGLING IMAGES') {
       steps {
         script {
           def retCnt = sh(returnStdout: true, script: 'docker images --filter dangling=true --format "{{.ID}}" | wc -l').trim()
@@ -82,11 +82,13 @@ pipeline {
     }
 
   }
+  environment {
+    INPUT_NETWORK_NAME = 'memoapp-network'
+    INPUT_MYSQL_CONTAINER = 'memoapp-db'
+    INPUT_APP_CONTAINER = 'my-tomcat-app'
+    INPUT_APP_IMAGE_NAME = 'my-tomcat-app-img'
+  }
   parameters {
-    string(name: 'INPUT_NETWORK_NAME', defaultValue: 'memoapp-network', description: '')
-    string(name: 'INPUT_MYSQL_CONTAINER', defaultValue: 'memoapp-db', description: '')
-    string(name: 'INPUT_APP_CONTAINER', defaultValue: 'my-tomcat-app', description: '')
-    string(name: 'INPUT_APP_IMAGE_NAME', defaultValue: 'my-tomcat-app-img', description: '')
     string(name: 'GREP_FALSE', defaultValue: 'false', description: '')
   }
 }
