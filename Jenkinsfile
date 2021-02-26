@@ -5,7 +5,6 @@ pipeline {
       when {
         expression {
           def APP_CONTAINER = sh(returnStdout: true, script: "docker ps --format \"{{.Names}}\" --filter \"name=${INPUT_APP_CONTAINER}\"").trim()
-          print APP_CONTAINER
           return APP_CONTAINER == INPUT_APP_CONTAINER
         }
 
@@ -17,7 +16,7 @@ pipeline {
 
     stage('APP IMAGE RECREATE') {
       steps {
-        sh 'docker build -t my-tomcat-app-img --no-cache .'
+        sh "docker build -t ${INPUT_APP_IMAGE_NAME} --no-cache ."
       }
     }
 
@@ -32,7 +31,7 @@ pipeline {
 
       }
       steps {
-        sh 'docker network create memoapp-network'
+        sh "docker network create ${INPUT_NETWORK_NAME}"
         sh "echo ------------------------------NETWORK IS CREATED AS ${INPUT_NETWORK_NAME}------------------------------"
       }
     }
@@ -47,14 +46,14 @@ pipeline {
 
       }
       steps {
-        sh 'docker run --network memoapp-network --name memoapp-db -e MYSQL_DATABASE=memoapp_db -e MYSQL_USER=memoapp -e MYSQL_PASSWORD=memoapp -e MYSQL_RANDOM_ROOT_PASSWORD=yes -d mysql:5.7 --character-set-server=utf8'
-        sh "echo ------------------------------DATABASE IS CREATED AS ${params.INPUT_MYSQL_CONTAINER}------------------------------"
+        sh "docker run --network ${INPUT_NETWORK_NAME} --name ${INPUT_MYSQL_CONTAINER} -e MYSQL_DATABASE=${INPUT_MYSQL_CONTAINER} -e MYSQL_USER=${INPUT_MYSQL_USER_NAME} -e MYSQL_PASSWORD=${INPUT_MYSQL_USER_PASS} -e MYSQL_RANDOM_ROOT_PASSWORD=yes -d mysql:5.7 --character-set-server=utf8"
+        sh "echo ------------------------------DATABASE IS CREATED AS ${INPUT_MYSQL_CONTAINER}------------------------------"
       }
     }
 
     stage('RUN APPLICATION') {
       steps {
-        sh 'docker run --name my-tomcat-app --network memoapp-network -d -p 18082:8080 my-tomcat-app-img'
+        sh "docker run --name ${INPUT_APP_CONTAINER} --network ${INPUT_NETWORK_NAME} -d -p 18082:8080 ${INPUT_APP_IMAGE_NAME}"
         sh "echo ------------------------------APPLICATION IS CREATED AS ${INPUT_APP_CONTAINER}------------------------------"
       }
     }
