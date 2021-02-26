@@ -69,7 +69,7 @@ pipeline {
           }
         }
 
-        sh 'echo end'
+        sh 'echo hahaha'
       }
     }
 
