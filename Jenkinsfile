@@ -69,7 +69,7 @@ pipeline {
           String aaa = sh(returnStdout: true, script: 'ls |wc -l').trim()
           sh "echo ---------aaa:${aaa}---------"
           */
-          if(Integer.parseInt(retCnt) > 1){
+          if(Integer.parseInt(retCnt) > 0){
             sh 'docker system prune -f --volumes'
             sh "echo ------------------------------${retCnt} OF DANGLING IMAGES ARE DELETED------------------------------"
           } else {
