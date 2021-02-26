@@ -4,7 +4,7 @@ pipeline {
     stage('STOP APPLICATION') {
       when {
         expression {
-          def APP_CONTAINER = sh(returnStdout: true, script: 'grep my-tomcat-app <(docker ps --format "table {{.Names}}") || echo param.GREP_FALSE').trim()
+          def APP_CONTAINER = sh(returnStdout: true, script: 'docker ps --format "{{.Names}}" --filter "names=${params.INPUT_APP_CONTAINER}"').trim()
           print APP_CONTAINER
           return APP_CONTAINER == params.INPUT_APP_CONTAINER
         }
@@ -24,7 +24,7 @@ pipeline {
     stage('NETWORK CREATE') {
       when {
         expression {
-          def NETWORK_NAME = sh(returnStdout: true, script: 'grep memoapp-network <(docker network ls --format "table {{.Name}}") || echo param.GREP_FALSE').trim()
+          def NETWORK_NAME = sh(returnStdout: true, script: 'docker network ls --format "{{.Name}}" --filter "name=${params.INPUT_NETWORK_NAME}"').trim()
           print params.INPUT_NETWORK_NAME
           echo params.INPUT_NETWORK_NAME
           return !(NETWORK_NAME == params.INPUT_NETWORK_NAME)
