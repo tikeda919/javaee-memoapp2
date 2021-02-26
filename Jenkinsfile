@@ -71,7 +71,7 @@ pipeline {
           */
           if(Integer.parseInt(retCnt) > 1){
             sh 'docker system prune -f --volumes'
-            sh "------------------------------${retCnt} OF DANGLING IMAGES ARE DELETED------------------------------"
+            sh "echo ------------------------------${retCnt} OF DANGLING IMAGES ARE DELETED------------------------------"
           } else {
             sh "echo ------------------------------DANGLING IMAGE IS NOTHING------------------------------"
           }
