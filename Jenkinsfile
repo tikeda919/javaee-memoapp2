@@ -62,9 +62,9 @@ pipeline {
     stage('test') {
       steps {
         sh '''if(ls |wc -l > 1){
- echo true
+ sh \'echo true\'
 } else {
- echo false
+ sh \'echo false\'
 }'''
         }
       }
