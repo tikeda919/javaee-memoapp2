@@ -4,7 +4,7 @@ pipeline {
     stage('STOP APPLICATION') {
       when {
         expression {
-          def APP_CONTAINER = sh(returnStdout: true, script: 'docker ps --format "{{.Names}}" --filter "names=my-tomcat-app"').trim()
+          def APP_CONTAINER = sh(returnStdout: true, script: 'docker ps --format "{{.Names}}" --filter "name=my-tomcat-app"').trim()
           print APP_CONTAINER
           return APP_CONTAINER == params.INPUT_APP_CONTAINER
         }
